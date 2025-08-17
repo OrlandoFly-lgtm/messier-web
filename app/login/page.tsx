@@ -1,7 +1,15 @@
 "use client";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export default function LoginPage() {
+  const sp = useSearchParams();
+  const roleParam = (sp.get("role") || "").toLowerCase(); // "client" | "executor" | ""
+  const heading =
+    roleParam === "client" ? "Вход для клиента"
+    : roleParam === "executor" ? "Вход для специалиста"
+    : "Вход";
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState("");
@@ -17,7 +25,7 @@ export default function LoginPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data?.message || "Ошибка входа");
       localStorage.setItem("access_token", data.accessToken);
-      localStorage.setItem("user_role", data.role);
+      localStorage.setItem("user_role", roleParam === "client" ? "CLIENT" : roleParam === "executor" ? "EXECUTOR" : data.role || "CLIENT");
       setMsg("Успех. Откройте /dashboard");
     } catch (err: any) {
       setMsg(err?.message || "Ошибка входа");
@@ -26,10 +34,21 @@ export default function LoginPage() {
 
   return (
     <main className="mx-auto max-w-md p-8">
-      <h1 className="text-2xl font-semibold">Вход</h1>
+      <h1 className="text-2xl font-semibold">{heading}</h1>
       <form onSubmit={onSubmit} className="mt-6 space-y-4">
-        <input value={email} onChange={e=>setEmail(e.target.value)} placeholder="Email" className="w-full border p-2 rounded" />
-        <input type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="Пароль" className="w-full border p-2 rounded" />
+        <input
+          value={email}
+          onChange={e=>setEmail(e.target.value)}
+          placeholder="Email"
+          className="w-full border p-2 rounded"
+        />
+        <input
+          type="password"
+          value={password}
+          onChange={e=>setPassword(e.target.value)}
+          placeholder="Пароль"
+          className="w-full border p-2 rounded"
+        />
         <button className="w-full border p-2 rounded">Войти</button>
       </form>
       <p className="mt-4 text-sm text-zinc-600">{msg}</p>
