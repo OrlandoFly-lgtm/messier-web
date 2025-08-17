@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <main
       className="min-h-screen w-full relative flex items-center justify-center"
-      // Используем файл из /public — он доступен по /bg.jpg
+      // фон из /public/bg.jpg
       style={{
         backgroundImage: "url('/bg.jpg')",
         backgroundSize: "cover",
@@ -12,29 +12,47 @@ export default function Home() {
         backgroundRepeat: "no-repeat"
       }}
     >
-      {/* затемнение фона для читабельности */}
-      <div className="absolute inset-0 bg-black/30" />
+      {/* лёгкое затемнение для читаемости текста */}
+      <div className="absolute inset-0 bg-black/35" />
 
-      {/* карточка по центру */}
-      <div className="relative z-10 w-full max-w-md p-8 bg-white/90 backdrop-blur rounded-2xl shadow-xl text-center space-y-6">
-        <h1 className="text-4xl font-bold tracking-wide text-zinc-900">Мессьер</h1>
-        <p className="text-zinc-700">Выберите вход</p>
+      {/* контент по центру */}
+      <div className="relative z-10 w-full max-w-5xl px-6">
+        {/* Заголовок */}
+        <h1
+          className="text-center text-6xl md:text-7xl font-bold tracking-wide text-white"
+          style={{ textShadow: "0 4px 24px rgba(0,0,0,0.55)" }}
+        >
+          Мессьер
+        </h1>
 
-        <div className="flex flex-col gap-4">
-          <Link
-            href="/login?role=client"
-            className="w-full rounded-lg bg-blue-600 px-4 py-3 text-white font-semibold shadow hover:bg-blue-700 transition"
-          >
-            Вход для клиента
-          </Link>
-
+        {/* Кнопки */}
+        <div className="mt-14 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10">
           <Link
             href="/login?role=executor"
-            className="w-full rounded-lg bg-green-600 px-4 py-3 text-white font-semibold shadow hover:bg-green-700 transition"
+            className="px-6 py-3 rounded-lg border border-white/55 text-white font-semibold
+                       bg-white/18 hover:bg-white/26 transition backdrop-blur-sm"
+            style={{ boxShadow: "inset 0 2px 10px rgba(0,0,0,0.35)" }}
           >
-            Вход для исполнителя
+            Зарегистрироваться как специалист
+          </Link>
+
+          <Link
+            href="/login?role=client"
+            className="px-6 py-3 rounded-lg border border-white/55 text-white font-semibold
+                       bg-white/18 hover:bg-white/26 transition backdrop-blur-sm"
+            style={{ boxShadow: "inset 0 2px 10px rgba(0,0,0,0.35)" }}
+          >
+            Зарегистрироваться как клиент
           </Link>
         </div>
+
+        {/* Сабхедлайн снизу */}
+        <p
+          className="mt-16 text-center text-white/85 text-sm md:text-base"
+          style={{ textShadow: "0 2px 14px rgba(0,0,0,0.5)" }}
+        >
+          B2B платформа с ручным отбором специалистов и решением задач для бизнеса
+        </p>
       </div>
     </main>
   );
